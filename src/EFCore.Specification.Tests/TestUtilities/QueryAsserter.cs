@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.TestUtilities.QueryTestGeneration;
 using Xunit;
 
 namespace Microsoft.EntityFrameworkCore.TestUtilities
@@ -17,6 +18,8 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         private readonly Dictionary<Type, Func<dynamic, object>> _entitySorters;
         private readonly Dictionary<Type, Action<dynamic, dynamic>> _entityAsserters;
         private readonly IncludeQueryResultAsserter _includeResultAsserter;
+
+        private const bool ProceduralQueryGeneration = false;
 
         public QueryAsserter(
             Func<TContext> contextCreator,
@@ -303,6 +306,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(SetExtractor.Set<TItem1>(context)).ToArrayAsync()
                     : actualQuery(SetExtractor.Set<TItem1>(context)).ToArray();
@@ -346,6 +357,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
@@ -395,6 +414,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context), SetExtractor.Set<TItem3>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
@@ -494,6 +521,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(SetExtractor.Set<TItem1>(context)).ToArrayAsync()
                     : actualQuery(SetExtractor.Set<TItem1>(context)).ToArray();
@@ -536,6 +571,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
@@ -576,6 +619,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context), SetExtractor.Set<TItem3>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
@@ -629,10 +680,19 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(SetExtractor.Set<TItem1>(context)).ToArrayAsync()
                     : actualQuery(SetExtractor.Set<TItem1>(context)).ToArray();
                 var expected = expectedQuery(ExpectedData.Set<TItem1>()).ToArray();
+
                 TestHelpers.AssertResultsNullable(
                     expected,
                     actual,
@@ -669,6 +729,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
@@ -680,6 +748,7 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
                 var expected = expectedQuery(
                     ExpectedData.Set<TItem1>(),
                     ExpectedData.Set<TItem2>()).ToArray();
+
                 TestHelpers.AssertResultsNullable(
                     expected,
                     actual,
@@ -716,6 +785,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return default;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context)).ToListAsync()
@@ -787,6 +864,14 @@ namespace Microsoft.EntityFrameworkCore.TestUtilities
         {
             using (var context = _contextCreator())
             {
+                if (ProceduralQueryGeneration && !isAsync)
+                {
+                    var query = actualQuery(SetExtractor.Set<TItem1>(context), SetExtractor.Set<TItem2>(context));
+                    new ProcedurallyGeneratedQueryExecutor().Execute(query, context);
+
+                    return default;
+                }
+
                 var actual = isAsync
                     ? await actualQuery(
                         SetExtractor.Set<TItem1>(context),
